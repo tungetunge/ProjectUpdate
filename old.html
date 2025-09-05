@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NPH Detection Checklist – Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>NPH Detection Checklist – Prototype</h1>
+    <p class="subtitle">Structured, stepwise helper for documenting features suggestive of Normal Pressure Hydrocephalus (NPH)</p>
+    <div class="disclaimer">
+      <strong>Clinical Disclaimer:</strong> This prototype is for education & documentation support only. It is <em>not</em> a medical device, diagnostic, or decision aid. Always use clinical judgement and local guidelines; consult neurology/neurosurgery for suspected NPH.
+    </div>
+  </header>
+
+  <nav id="progress">
+    <div class="step-indicator active">1. Patient & Symptoms</div>
+    <div class="step-indicator">2. Exam</div>
+    <div class="step-indicator">3. Imaging</div>
+    <div class="step-indicator">4. Tap Test</div>
+    <div class="step-indicator">5. Exclusions</div>
+    <div class="step-indicator">6. Summary</div>
+  </nav>
+
+  <main>
+    <!-- STEP 1 -->
+    <section class="step active" data-step="1">
+      <h2>Step 1 — Patient & Symptoms</h2>
+      <div class="grid">
+        <label>
+          Patient ID / Name
+          <input type="text" id="patientId" placeholder="e.g., MRN-12345 / Jane Doe">
+        </label>
+        <label>
+          Age (years)
+          <input type="number" id="age" min="0" max="120" placeholder="e.g., 74">
+        </label>
+        <label>
+          Symptom onset (months)
+          <input type="number" id="onsetMonths" min="0" placeholder="e.g., 12">
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Hakim’s Triad (tick all that apply)</legend>
+        <label><input type="checkbox" id="gaitDist"> Gait disturbance (broad-based, shuffling, magnetic)</label>
+        <label><input type="checkbox" id="cognitiveDecline"> Cognitive decline (slowed thinking, apathy, executive dysfunction)</label>
+        <label><input type="checkbox" id="urinaryIssues"> Urinary urgency / incontinence</label>
+      </fieldset>
+
+      <label class="full">
+        Notes
+        <textarea id="notesSym" rows="3" placeholder="Free text notes…"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="step" data-step="2">
+      <h2>Step 2 — Examination</h2>
+      <div class="grid">
+        <label>
+          Timed Up & Go (TUG) — seconds
+          <input type="number" id="tug" min="0" step="0.1" placeholder="e.g., 18.5">
+        </label>
+        <label>
+          10‑meter walk time — seconds
+          <input type="number" id="tenMWT" min="0" step="0.1" placeholder="e.g., 12.0">
+        </label>
+        <label>
+          MoCA / MMSE score (enter value & test)
+          <input type="text" id="cogScore" placeholder="e.g., MoCA 22/30 or MMSE 25/30">
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Neurological exam (tick if present)</legend>
+        <label><input type="checkbox" id="parkinsonism"> Parkinsonism (tremor/rigidity)</label>
+        <label><input type="checkbox" id="focalDeficits"> Focal deficits</label>
+        <label><input type="checkbox" id="neuropathy"> Peripheral neuropathy</label>
+      </fieldset>
+
+      <label class="full">
+        Notes
+        <textarea id="notesExam" rows="3"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="back">← Back</button>
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step" data-step="3">
+      <h2>Step 3 — Imaging</h2>
+      <p>Enter the linear measurements to auto‑calculate the Evans Index (EI = Frontal horn width ÷ Inner skull diameter). EI ≥ 0.30 supports ventriculomegaly.</p>
+      <div class="grid">
+        <label>
+          Frontal horn width — mm
+          <input type="number" id="fhWidth" min="0" step="0.1" placeholder="e.g., 42">
+        </label>
+        <label>
+          Inner skull diameter — mm
+          <input type="number" id="skullWidth" min="0" step="0.1" placeholder="e.g., 130">
+        </label>
+        <label>
+          Evans Index (auto)
+          <input type="text" id="evansIndex" readonly placeholder="Auto-calculated">
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Supportive features</legend>
+        <label><input type="checkbox" id="desh"> DESH pattern (enlarged Sylvian fissures + tight high‑convexity sulci)</label>
+        <label><input type="checkbox" id="pvChanges"> Periventricular changes compatible with transependymal CSF flow</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Exclude other causes</legend>
+        <label><input type="checkbox" id="tumor"> Mass / tumor</label>
+        <label><input type="checkbox" id="hemorrhage"> Hemorrhage</label>
+        <label><input type="checkbox" id="obstructiveHydro"> Obstructive hydrocephalus</label>
+        <label><input type="checkbox" id="severeAtrophy"> Severe cortical atrophy</label>
+        <label><input type="checkbox" id="multipleInfarcts"> Multiple infarcts</label>
+      </fieldset>
+
+      <label class="full">
+        Notes
+        <textarea id="notesImaging" rows="3"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="back">← Back</button>
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="step" data-step="4">
+      <h2>Step 4 — Tap Test (High‑volume LP)</h2>
+      <p>Record pre‑ and post‑tap metrics. Improvement in gait speed or TUG time is supportive. This prototype highlights ≥20% change as “notable” (not a validated threshold).</p>
+      <div class="grid">
+        <label>
+          Pre‑tap 10‑m walk time — seconds
+          <input type="number" id="pre10m" min="0" step="0.1" placeholder="e.g., 14.0">
+        </label>
+        <label>
+          Post‑tap 10‑m walk time — seconds
+          <input type="number" id="post10m" min="0" step="0.1" placeholder="e.g., 10.5">
+        </label>
+        <label>
+          Pre‑tap TUG — seconds
+          <input type="number" id="preTug" min="0" step="0.1" placeholder="e.g., 20.0">
+        </label>
+        <label>
+          Post‑tap TUG — seconds
+          <input type="number" id="postTug" min="0" step="0.1" placeholder="e.g., 16.0">
+        </label>
+      </div>
+
+      <div class="grid">
+        <label>
+          CSF removed — mL
+          <input type="number" id="csfRemoved" min="0" step="1" placeholder="e.g., 40">
+        </label>
+        <label>
+          Re‑assessment time after tap
+          <input type="text" id="reassessTime" placeholder="e.g., 60 min and 24 h">
+        </label>
+      </div>
+
+      <label class="full">
+        Notes
+        <textarea id="notesTap" rows="3"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="back">← Back</button>
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 5 -->
+    <section class="step" data-step="5">
+      <h2>Step 5 — Exclusions / Mimics</h2>
+      <fieldset>
+        <legend>Tick if excluded (by clinical ± investigations)</legend>
+        <label><input type="checkbox" id="alzheimersExcluded"> Alzheimer’s disease unlikely</label>
+        <label><input type="checkbox" id="parkinsonsExcluded"> Parkinson’s disease unlikely</label>
+        <label><input type="checkbox" id="vascularExcluded"> Vascular dementia unlikely</label>
+        <label><input type="checkbox" id="b12Excluded"> B12 deficiency excluded</label>
+        <label><input type="checkbox" id="thyroidExcluded"> Thyroid disorder excluded</label>
+      </fieldset>
+
+      <label class="full">
+        Notes
+        <textarea id="notesExclude" rows="3"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="back">← Back</button>
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 6 -->
+    <section class="step" data-step="6">
+      <h2>Step 6 — Summary & Report</h2>
+      <div id="summary" class="summary"></div>
+
+      <div class="controls multi">
+        <button id="saveLocal">💾 Save (browser)</button>
+        <button id="loadLocal">📥 Load Saved</button>
+        <button id="exportJson">⬇️ Export JSON</button>
+        <button id="printReport">🖨️ Print / Save PDF</button>
+        <button class="back">← Back</button>
+        <button id="resetAll" class="danger">Reset</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>v0.1 prototype • Local‑only, no data leaves your browser • Built for your workflow</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

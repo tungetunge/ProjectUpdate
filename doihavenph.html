@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NPH Detection Checklist – Prototype</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #333;
+      background: #f7f9fc;
+      line-height: 1.6;
+    }
+
+    /* Emergency bar */
+    .emergency-bar {
+      background: #e53935;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    .emergency-bar i {
+      color: #fff;
+      font-size: 16px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 40px;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-img {
+      width: 130px;
+      height: auto;
+    }
+    .search {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      margin: 0 20px;
+    }
+    .search input {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      width: 250px;
+      font-size: 14px;
+    }
+    .header-buttons button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    .btn-member {
+      background: linear-gradient(135deg, #28a745, #34d058);
+    }
+    .btn-member:hover {
+      background: linear-gradient(135deg, #218838, #28a745);
+      transform: translateY(-2px);
+    }
+    .btn-donate {
+      background: linear-gradient(135deg, #0077cc, #339af0);
+    }
+    .btn-donate:hover {
+      background: linear-gradient(135deg, #005fa3, #0077cc);
+      transform: translateY(-2px);
+    }
+    .btn-contact {
+      background: linear-gradient(135deg, #ff6600, #ff8533);
+    }
+    .btn-contact:hover {
+      background: linear-gradient(135deg, #e65c00, #ff6600);
+      transform: translateY(-2px);
+    }
+    .btn-home {
+      background: linear-gradient(135deg, #0077cc, #339af0);
+    }
+    .btn-home:hover {
+      background: linear-gradient(135deg, #005fa3, #0077cc);
+      transform: translateY(-2px);
+    }
+
+    /* Navigation (Progress Bar) */
+    nav#progress {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #eaf4ff;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .step-indicator {
+      padding: 10px 20px;
+      border-radius: 4px;
+      background: #3b3b3b;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .step-indicator.active {
+      background: #0077cc;
+      color: #fff;
+    }
+    .step-indicator:hover {
+      background: #555;
+    }
+
+    /* Main Content */
+    main {
+      padding: 16px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    section.step {
+      display: none;
+      background: #fff;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    section.step.active {
+      display: block;
+    }
+    h2 {
+      margin-top: 0;
+      color: #0077cc;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-weight: 600;
+      color: #333;
+    }
+    label input[type="text"],
+    label input[type="number"],
+    textarea {
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      background: #fbfdff;
+    }
+    fieldset {
+      border: 1px solid #dce3f6;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 12px 0;
+    }
+    legend {
+      padding: 0 6px;
+      font-weight: 700;
+      color: #333;
+    }
+    fieldset label {
+      font-weight: 500;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0;
+    }
+    .full {
+      grid-column: 1 / -1;
+    }
+    .controls {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .controls.multi {
+      justify-content: space-between;
+    }
+    button {
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    button.next {
+      background: linear-gradient(135deg, #28a745, #34d058);
+    }
+    button.next:hover {
+      background: linear-gradient(135deg, #218838, #28a745);
+      transform: translateY(-2px);
+    }
+    button.back {
+      background: linear-gradient(135deg, #6b7a99, #8a97b3);
+    }
+    button.back:hover {
+      background: linear-gradient(135deg, #5a6988, #6b7a99);
+      transform: translateY(-2px);
+    }
+    button.danger {
+      background: linear-gradient(135deg, #e53935, #ff665e);
+    }
+    button.danger:hover {
+      background: linear-gradient(135deg, #c62828, #e53935);
+      transform: translateY(-2px);
+    }
+    button#saveLocal {
+      background: linear-gradient(135deg, #28a745, #34d058);
+    }
+    button#saveLocal:hover {
+      background: linear-gradient(135deg, #218838, #28a745);
+      transform: translateY(-2px);
+    }
+    button#loadLocal {
+      background: linear-gradient(135deg, #0077cc, #339af0);
+    }
+    button#loadLocal:hover {
+      background: linear-gradient(135deg, #005fa3, #0077cc);
+      transform: translateY(-2px);
+    }
+    button#exportJson {
+      background: linear-gradient(135deg, #ff6600, #ff8533);
+    }
+    button#exportJson:hover {
+      background: linear-gradient(135deg, #e65c00, #ff6600);
+      transform: translateY(-2px);
+    }
+    button#printReport {
+      background: linear-gradient(135deg, #0077cc, #339af0);
+    }
+    button#printReport:hover {
+      background: linear-gradient(135deg, #005fa3, #0077cc);
+      transform: translateY(-2px);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .summary {
+      background: #f4f7ff;
+      border: 1px solid #d6e0ff;
+      padding: 12px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      color: #333;
+    }
+    .summary h3 {
+      color: #0077cc;
+      font-weight: bold;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 40px;
+      margin-top: 40px;
+    }
+    .footer-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .footer-about h2 {
+      margin-top: 0;
+      color: #0077cc;
+    }
+    .footer-links h3 {
+      margin-top: 0;
+      color: #28a745;
+    }
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-links ul li {
+      margin-bottom: 8px;
+    }
+    .footer-links ul li a {
+      text-decoration: none;
+      color: #ff6600;
+    }
+    .footer-links ul li a:hover {
+      text-decoration: underline;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      border-top: 1px solid #555;
+      padding-top: 15px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="emergency-bar">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <strong>Emergency:</strong> If symptoms are sudden or severe, call 999. For non-urgent advice, call NHS 111 or your GP.
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="https://i.postimg.cc/C1YDNWZB/NPH-logo.png" alt="NPH Charity Logo" class="logo-img">
+    </div>
+    <div class="search">
+      <input type="text" placeholder="Search..."/>
+    </div>
+    <div class="header-buttons">
+      <button class="btn-home">Home</button>
+      <button class="btn-member">Become a member</button>
+      <button class="btn-donate">Donate</button>
+      <button class="btn-contact">Contact us</button>
+    </div>
+  </header>
+
+  <nav id="progress">
+    <div class="step-indicator active">1. Patient & Symptoms</div>
+    <div class="step-indicator">2. Exam</div>
+    <div class="step-indicator">3. Imaging</div>
+    <div class="step-indicator">4. Tap Test</div>
+    <div class="step-indicator">5. Exclusions</div>
+    <div class="step-indicator">6. Summary</div>
+  </nav>
+
+  <main>
+    <!-- STEP 1 -->
+    <section class="step active" data-step="1">
+      <h2>Step 1 — Patient & Symptoms</h2>
+      <div class="grid">
+        <label>
+          Patient ID / Name
+          <input type="text" id="patientId" placeholder="e.g., MRN-12345 / Jane Doe">
+        </label>
+        <label>
+          Age (years)
+          <input type="number" id="age" min="0" max="120" placeholder="e.g., 74">
+        </label>
+        <label>
+          Symptom onset (months)
+          <input type="number" id="onsetMonths" min="0" placeholder="e.g., 12">
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Hakim’s Triad (tick all that apply)</legend>
+        <label><input type="checkbox" id="gaitDist"> Gait disturbance (broad-based, shuffling, magnetic)</label>
+        <label><input type="checkbox" id="cognitiveDecline"> Cognitive decline (slowed thinking, apathy, executive dysfunction)</label>
+        <label><input type="checkbox" id="urinaryIssues"> Urinary urgency / incontinence</label>
+      </fieldset>
+
+      <label class="full">
+        Notes
+        <textarea id="notesSym" rows="3" placeholder="Free text notes…"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="step" data-step="2">
+      <h2>Step 2 — Examination</h2>
+      <div class="grid">
+        <label>
+          Timed Up & Go (TUG) — seconds
+          <input type="number" id="tug" min="0" step="0.1" placeholder="e.g., 18.5">
+        </label>
+        <label>
+          10‑meter walk time — seconds
+          <input type="number" id="tenMWT" min="0" step="0.1" placeholder="e.g., 12.0">
+        </label>
+        <label>
+          MoCA / MMSE score (enter value & test)
+          <input type="text" id="cogScore" placeholder="e.g., MoCA 22/30 or MMSE 25/30">
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Neurological exam (tick if present)</legend>
+        <label><input type="checkbox" id="parkinsonism"> Parkinsonism (tremor/rigidity)</label>
+        <label><input type="checkbox" id="focalDeficits"> Focal deficits</label>
+        <label><input type="checkbox" id="neuropathy"> Peripheral neuropathy</label>
+      </fieldset>
+
+      <label class="full">
+        Notes
+        <textarea id="notesExam" rows="3"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="back">← Back</button>
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step" data-step="3">
+      <h2>Step 3 — Imaging</h2>
+      <p>Enter the linear measurements to auto‑calculate the Evans Index (EI = Frontal horn width ÷ Inner skull diameter). EI ≥ 0.30 supports ventriculomegaly.</p>
+      <div class="grid">
+        <label>
+          Frontal horn width — mm
+          <input type="number" id="fhWidth" min="0" step="0.1" placeholder="e.g., 42">
+        </label>
+        <label>
+          Inner skull diameter — mm
+          <input type="number" id="skullWidth" min="0" step="0.1" placeholder="e.g., 130">
+        </label>
+        <label>
+          Evans Index (auto)
+          <input type="text" id="evansIndex" readonly placeholder="Auto-calculated">
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Supportive features</legend>
+        <label><input type="checkbox" id="desh"> DESH pattern (enlarged Sylvian fissures + tight high‑convexity sulci)</label>
+        <label><input type="checkbox" id="pvChanges"> Periventricular changes compatible with transependymal CSF flow</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Exclude other causes</legend>
+        <label><input type="checkbox" id="tumor"> Mass / tumor</label>
+        <label><input type="checkbox" id="hemorrhage"> Hemorrhage</label>
+        <label><input type="checkbox" id="obstructiveHydro"> Obstructive hydrocephalus</label>
+        <label><input type="checkbox" id="severeAtrophy"> Severe cortical atrophy</label>
+        <label><input type="checkbox" id="multipleInfarcts"> Multiple infarcts</label>
+      </fieldset>
+
+      <label class="full">
+        Notes
+        <textarea id="notesImaging" rows="3"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="back">← Back</button>
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="step" data-step="4">
+      <h2>Step 4 — Tap Test (High‑volume LP)</h2>
+      <p>Record pre‑ and post‑tap metrics. Improvement in gait speed or TUG time is supportive. This prototype highlights ≥20% change as “notable” (not a validated threshold).</p>
+      <div class="grid">
+        <label>
+          Pre‑tap 10‑m walk time — seconds
+          <input type="number" id="pre10m" min="0" step="0.1" placeholder="e.g., 14.0">
+        </label>
+        <label>
+          Post‑tap 10‑m walk time — seconds
+          <input type="number" id="post10m" min="0" step="0.1" placeholder="e.g., 10.5">
+        </label>
+        <label>
+          Pre‑tap TUG — seconds
+          <input type="number" id="preTug" min="0" step="0.1" placeholder="e.g., 20.0">
+        </label>
+        <label>
+          Post‑tap TUG — seconds
+          <input type="number" id="postTug" min="0" step="0.1" placeholder="e.g., 16.0">
+        </label>
+      </div>
+
+      <div class="grid">
+        <label>
+          CSF removed — mL
+          <input type="number" id="csfRemoved" min="0" step="1" placeholder="e.g., 40">
+        </label>
+        <label>
+          Re‑assessment time after tap
+          <input type="text" id="reassessTime" placeholder="e.g., 60 min and 24 h">
+        </label>
+      </div>
+
+      <label class="full">
+        Notes
+        <textarea id="notesTap" rows="3"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="back">← Back</button>
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 5 -->
+    <section class="step" data-step="5">
+      <h2>Step 5 — Exclusions / Mimics</h2>
+      <fieldset>
+        <legend>Tick if excluded (by clinical ± investigations)</legend>
+        <label><input type="checkbox" id="alzheimersExcluded"> Alzheimer’s disease unlikely</label>
+        <label><input type="checkbox" id="parkinsonsExcluded"> Parkinson’s disease unlikely</label>
+        <label><input type="checkbox" id="vascularExcluded"> Vascular dementia unlikely</label>
+        <label><input type="checkbox" id="b12Excluded"> B12 deficiency excluded</label>
+        <label><input type="checkbox" id="thyroidExcluded"> Thyroid disorder excluded</label>
+      </fieldset>
+
+      <label class="full">
+        Notes
+        <textarea id="notesExclude" rows="3"></textarea>
+      </label>
+
+      <div class="controls">
+        <button class="back">← Back</button>
+        <button class="next">Next →</button>
+      </div>
+    </section>
+
+    <!-- STEP 6 -->
+    <section class="step" data-step="6">
+      <h2>Step 6 — Summary & Report</h2>
+      <div class="disclaimer">
+        <strong>Clinical Disclaimer:</strong> This prototype is for education & documentation support only. It is <em>not</em> a medical device, diagnostic, or decision aid. Always use clinical judgement and local guidelines; consult neurology/neurosurgery for suspected NPH.
+      </div>
+      <div id="summary" class="summary"></div>
+
+      <div class="controls multi">
+        <button id="saveLocal">💾 Save (browser)</button>
+        <button id="loadLocal">📥 Load Saved</button>
+        <button id="exportJson">⬇️ Export JSON</button>
+        <button id="printReport">🖨️ Print / Save PDF</button>
+        <button class="back">← Back</button>
+        <button id="resetAll" class="danger">Reset</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-about">
+        <h2>NPH Charity UK</h2>
+        <p>Supporting people affected by Normal Pressure Hydrocephalus with information, guidance, and advocacy.</p>
+        <p>
+          <strong>Helpline:</strong> 0800 123 4567<br/>
+          <strong>Email:</strong> info@nphcharity.org.uk<br/>
+          <strong>Contact:</strong> Contact Form
+        </p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="whatisnph.html">What is NPH?</a></li>
+          <li><a href="#">Get Help</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="#">Donate</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 NPH Charity UK. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Simple multi-step form logic with localStorage, summary, and basic highlighting
+    const steps = Array.from(document.querySelectorAll('section.step'));
+    const indicators = Array.from(document.querySelectorAll('.step-indicator'));
+
+    function showStep(n) {
+      steps.forEach(s => s.classList.remove('active'));
+      indicators.forEach(i => i.classList.remove('active'));
+      const step = steps[n-1];
+      step.classList.add('active');
+      indicators[n-1].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (n === 6) {
+        try {
+          buildSummary();
+        } catch (e) {
+          console.error('Error in buildSummary:', e);
+          document.getElementById('summary').textContent = 'Error generating summary. Please check input data.';
+        }
+      }
+    }
+
+    document.querySelectorAll('.next').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const current = steps.findIndex(s => s.classList.contains('active')) + 1;
+        showStep(Math.min(current + 1, steps.length));
+      });
+    });
+    document.querySelectorAll('.back').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const current = steps.findIndex(s => s.classList.contains('active')) + 1;
+        showStep(Math.max(current - 1, 1));
+      });
+    });
+
+    // Evans Index auto-calc
+    const fhInput = document.getElementById('fhWidth');
+    const skullInput = document.getElementById('skullWidth');
+    const evansField = document.getElementById('evansIndex');
+    function updateEvans() {
+      const fh = parseFloat(fhInput.value);
+      const skull = parseFloat(skullInput.value);
+      if (fh > 0 && skull > 0) {
+        const ei = fh / skull;
+        evansField.value = ei.toFixed(3);
+        evansField.style.color = ei >= 0.30 ? '#28b463' : '#e53935';
+      } else {
+        evansField.value = '';
+        evansField.style.color = '#333';
+      }
+    }
+    [fhInput, skullInput].forEach(i => i.addEventListener('input', updateEvans));
+
+    function getVal(id, type='value') {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      return type === 'checked' ? el.checked : el.value;
+    }
+
+    function percentChange(pre, post, lowerIsBetter=false) {
+      if (pre == null || post == null || isNaN(pre) || isNaN(post) || pre <= 0) return null;
+      if (lowerIsBetter) {
+        return ((pre - post) / pre) * 100;
+      }
+      return ((post - pre) / pre) * 100;
+    }
+
+    function buildSummary() {
+      // Triad
+      const triad = {
+        gait: getVal('gaitDist', 'checked'),
+        cognitive: getVal('cognitiveDecline', 'checked'),
+        urinary: getVal('urinaryIssues', 'checked')
+      };
+      const triadCount = Object.values(triad).filter(Boolean).length;
+
+      // Exam
+      const tug = parseFloat(getVal('tug'));
+      const tenMWT = parseFloat(getVal('tenMWT'));
+
+      // Imaging
+      const evans = parseFloat(getVal('evansIndex'));
+      const desh = getVal('desh', 'checked');
+      const pv = getVal('pvChanges', 'checked');
+      const imagingSupport = (evans >= 0.30 ? 1 : 0) + (desh ? 1 : 0) + (pv ? 1 : 0);
+
+      const imagingExclusions = ['tumor','hemorrhage','obstructiveHydro','severeAtrophy','multipleInfarcts']
+        .map(id => getVal(id, 'checked'))
+        .some(Boolean);
+
+      // Tap test
+      const pre10 = parseFloat(getVal('pre10m'));
+      const post10 = parseFloat(getVal('post10m'));
+      const preTug = parseFloat(getVal('preTug'));
+      const postTug = parseFloat(getVal('postTug'));
+
+      const imp10 = percentChange(pre10, post10, true);
+      const impTug = percentChange(preTug, postTug, true);
+
+      const notable10 = (imp10 != null && imp10 >= 20);
+      const notableTug = (impTug != null && impTug >= 20);
+      const tapSupport = [notable10, notableTug].some(Boolean);
+
+      // Exclusions (clinical/mimics excluded?)
+      const exclusions = {
+        alz: getVal('alzheimersExcluded', 'checked'),
+        park: getVal('parkinsonsExcluded', 'checked'),
+        vas: getVal('vascularExcluded', 'checked'),
+        b12: getVal('b12Excluded', 'checked'),
+        thyroid: getVal('thyroidExcluded', 'checked')
+      };
+
+      // Simple, cautious heuristic (not a diagnostic score)
+      let overall = 'Inconclusive';
+      let color = '#6b7a99';
+      if (triadCount >= 2 && imagingSupport >= 1 && !imagingExclusions) {
+        overall = 'Findings consistent with possible NPH — consider specialist evaluation';
+        color = '#28b463';
+      }
+      if (imagingExclusions) {
+        overall = 'Alternative intracranial pathology flagged — manage per local protocols';
+        color = '#e53935';
+      }
+
+      // Build text
+      const lines = [];
+      lines.push(`Patient: ${getVal('patientId') || '—'} | Age: ${getVal('age') || '—'} | Onset: ${getVal('onsetMonths') || '—'} months`);
+      lines.push('\nHakim’s triad:');
+      lines.push(`• Gait: ${triad.gait ? '✔' : '✖'}   • Cognitive: ${triad.cognitive ? '✔' : '✖'}   • Urinary: ${triad.urinary ? '✔' : '✖'}   (count ${triadCount}/3)`);
+
+      lines.push('\nExam:');
+      lines.push(`• TUG: ${isNaN(tug) ? '—' : tug.toFixed(1) + ' s'}   • 10‑m time: ${isNaN(tenMWT) ? '—' : tenMWT.toFixed(1) + ' s'}   • Cognitive: ${getVal('cogScore') || '—'}`);
+
+      lines.push('\nImaging:');
+      lines.push(`• Evans Index: ${isNaN(evans) ? '—' : evans.toFixed(3)} ${(!isNaN(evans) && evans >= 0.30) ? '(supports ventriculomegaly)' : ''}`);
+      lines.push(`• DESH: ${desh ? '✔' : '✖'}   • Periventricular changes: ${pv ? '✔' : '✖'}`);
+      if (imagingExclusions) {
+        lines.push('• ⚠ Exclusion flags present (mass/hemorrhage/obstructive hydro/severe atrophy/infarcts)');
+      }
+      
+      lines.push('\nTap test:');
+      const fmt = (v) => (v == null || isNaN(v)) ? '—' : v.toFixed(1) + ' s';
+      lines.push(`• 10‑m pre/post: ${fmt(pre10)} → ${fmt(post10)}   Δ% improvement: ${imp10 == null ? '—' : imp10.toFixed(0) + '%'}`);
+      lines.push(`• TUG pre/post: ${fmt(preTug)} → ${fmt(postTug)}   Δ% improvement: ${impTug == null ? '—' : impTug.toFixed(0) + '%'}`);
+      if (tapSupport) {
+        lines.push('• Notable improvement flagged (≥20% in either metric).');
+      }
+
+      lines.push('\nExclusions (mimics unlikely):');
+      lines.push(`• Alzheimer’s: ${exclusions.alz ? '✔' : '—'}  • Parkinson’s: ${exclusions.park ? '✔' : '—'}  • Vascular: ${exclusions.vas ? '✔' : '—'}  • B12: ${exclusions.b12 ? '✔' : '—'}  • Thyroid: ${exclusions.thyroid ? '✔' : '—'}`);
+
+      lines.push('\nNotes:');
+      const noteBlocks = ['notesSym','notesExam','notesImaging','notesTap','notesExclude']
+        .map(id => document.getElementById(id)?.value || '')
+        .filter(t => t.trim().length);
+      lines.push(noteBlocks.length ? noteBlocks.join('\n— — —\n') : '—');
+
+      lines.push('\nOverall:');
+      lines.push(overall);
+
+      const summary = document.getElementById('summary');
+      summary.textContent = lines.join('\n');
+      summary.style.borderColor = color;
+    }
+
+    // Local save/load
+    function gatherFormData() {
+      const ids = [
+        'patientId','age','onsetMonths',
+        'gaitDist','cognitiveDecline','urinaryIssues','notesSym',
+        'tug','tenMWT','cogScore','parkinsonism','focalDeficits','neuropathy','notesExam',
+        'fhWidth','skullWidth','evansIndex','desh','pvChanges','tumor','hemorrhage','obstructiveHydro','severeAtrophy','multipleInfarcts','notesImaging',
+        'pre10m','post10m','preTug','postTug','csfRemoved','reassessTime','notesTap',
+        'alzheimersExcluded','parkinsonsExcluded','vascularExcluded','b12Excluded','thyroidExcluded','notesExclude'
+      ];
+      const data = {};
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        data[id] = (el.type === 'checkbox') ? el.checked : el.value;
+      });
+      return data;
+    }
+
+    function populateForm(data) {
+      Object.entries(data || {}).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.type === 'checkbox') el.checked = !!val;
+        else el.value = val;
+      });
+      updateEvans();
+    }
+
+    document.getElementById('saveLocal').addEventListener('click', () => {
+      const data = gatherFormData();
+      localStorage.setItem('nph_checklist', JSON.stringify(data));
+      alert('Saved to browser storage.');
+    });
+    document.getElementById('loadLocal').addEventListener('click', () => {
+      const raw = localStorage.getItem('nph_checklist');
+      if (!raw) return alert('No saved data found.');
+      try {
+        populateForm(JSON.parse(raw));
+        alert('Loaded saved data.');
+      } catch(e) {
+        alert('Could not load saved data.');
+      }
+    });
+    document.getElementById('exportJson').addEventListener('click', () => {
+      const data = gatherFormData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (data.patientId || 'nph_checklist') + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+    document.getElementById('printReport').addEventListener('click', () => {
+      try {
+        buildSummary();
+        window.print();
+      } catch (e) {
+        console.error('Error in printReport:', e);
+        alert('Error generating report. Please check input data.');
+      }
+    });
+    document.getElementById('resetAll').addEventListener('click', () => {
+      if (!confirm('Clear all fields?')) return;
+      localStorage.removeItem('nph_checklist');
+      window.location.reload();
+    });
+
+    // Home button functionality
+    document.querySelector('.btn-home').addEventListener('click', () => {
+      if (confirm('Return to home page? Any unsaved changes will be lost.')) {
+        window.location.href = 'index.html';
+      }
+    });
+
+    // init
+    showStep(1);
+  </script>
+</body>
+</html>

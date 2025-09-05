@@ -1,1 +1,590 @@
-<html><body><h1>Contact</h1><p>Content placeholder.</p></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact – NPH Charity UK</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      font-size: 16px;
+    }
+
+    /* Accessibility Toolbar */
+    .accessibility-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      background: #0077cc; /* Updated to theme's primary blue */
+      color: #fff; /* White text for better contrast */
+      border-bottom: 1px solid #005fa3;
+      font-size: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .accessibility-toolbar span {
+      color: #fff;
+    }
+    .accessibility-toolbar button {
+      background: #fff;
+      color: #0077cc;
+      border: 1px solid #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .accessibility-toolbar button:hover {
+      background: #e2e6ea;
+      color: #005fa3;
+      border-color: #e2e6ea;
+    }
+
+    /* High contrast mode */
+    body.high-contrast {
+      background: #000 !important;
+      color: #fff !important;
+    }
+    body.high-contrast a {
+      color: yellow !important;
+    }
+    body.high-contrast .card {
+      background: #222 !important;
+      color: #fff !important;
+      border: 1px solid #fff;
+    }
+    body.high-contrast header,
+    body.high-contrast nav#menu,
+    body.high-contrast footer {
+      background: #000 !important;
+      border: none;
+    }
+    body.high-contrast .menu-item {
+      background: #444 !important;
+    }
+    body.high-contrast .menu-item.active {
+      background: yellow !important;
+      color: black !important;
+    }
+    body.high-contrast .accessibility-toolbar {
+      background: #444 !important;
+      border-bottom: 1px solid #fff;
+    }
+    body.high-contrast .accessibility-toolbar button {
+      background: #fff !important;
+      color: #000 !important;
+      border: 1px solid #fff !important;
+    }
+    body.high-contrast .accessibility-toolbar button:hover {
+      background: yellow !important;
+      color: black !important;
+    }
+
+    /* Emergency bar */
+    .emergency-bar {
+      background: #e53935;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    .emergency-bar i {
+      color: #fff;
+      font-size: 16px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 40px;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-img {
+      width: 130px;
+      height: auto;
+    }
+    
+    .header-buttons button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    .btn-member { background: linear-gradient(135deg, #28a745, #34d058); }
+    .btn-member:hover { background: linear-gradient(135deg, #218838, #28a745); transform: translateY(-2px); }
+    .btn-donate { background: linear-gradient(135deg, #0077cc, #339af0); }
+    .btn-donate:hover { background: linear-gradient(135deg, #005fa3, #0077cc); transform: translateY(-2px); }
+    .btn-contact { background: linear-gradient(135deg, #ff6600, #ff8533); }
+    .btn-contact:hover { background: linear-gradient(135deg, #e65c00, #ff6600); transform: translateY(-2px); }
+    .btn-home { background: linear-gradient(135deg, #0077cc, #339af0); }
+    .btn-home:hover { background: linear-gradient(135deg, #005fa3, #0077cc); transform: translateY(-2px); }
+
+    /* Navigation */
+    nav#menu {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #eaf4ff;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .menu-item {
+      padding: 10px 20px;
+      border-radius: 4px;
+      background: #3b3b3b;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .menu-item.active {
+      background: #0077cc;
+      color: #fff;
+    }
+    .menu-item:hover { background: #555; }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #f0f7ff, #ffffff);
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .hero h1 {
+      font-size: 32px;
+      color: #0077cc;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto 20px;
+      color: #444;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    button, 
+    .content-section button,
+    .content-section .btn,
+    .content-section input[type="submit"] {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: 1px solid #007bff;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover,
+    .content-section button:hover,
+    .content-section .btn:hover,
+    .content-section input[type="submit"]:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .contact-form h2,
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #1a73e8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .contact-form label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .contact-form .radio-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .contact-form input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: #1a73e8;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .contact-form input[type="submit"]:hover {
+      background: #0c5ed7;
+    }
+    .small-note {
+      font-size: 12px;
+      color: #777;
+      margin-top: 8px;
+    }
+
+    .info-section { margin-bottom: 20px; }
+    .info-section:last-child { margin-bottom: 0; }
+    .info-section h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #1a73e8;
+    }
+    .info-section p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #444;
+    }
+    .info-section strong { display: block; margin-bottom: 5px; }
+    .highlight {
+      background: #f1f3f5;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .faq-section { margin-top: 30px; }
+    .faq-section h2 {
+      font-size: 20px;
+      color: #1a73e8;
+      margin-bottom: 20px;
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .faq-item h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: #222;
+    }
+    .faq-item p {
+      font-size: 14px;
+      color: #555;
+      margin: 0;
+    }
+
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 40px;
+      margin-top: 40px;
+    }
+    .footer-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .footer-about h2 {
+      margin-top: 0;
+      color: #0077cc;
+    }
+    .footer-links h3 {
+      margin-top: 0;
+      color: #28a745;
+    }
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-links ul li {
+      margin-bottom: 8px;
+    }
+    .footer-links ul li a {
+      text-decoration: none;
+      color: #ff6600;
+    }
+    .footer-links ul li a:hover {
+      text-decoration: underline;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      border-top: 1px solid #555;
+      padding-top: 15px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Accessibility Toolbar -->
+  <div class="accessibility-toolbar">
+    <span>Accessibility:</span>
+    <button id="decrease-font" aria-label="Decrease text size">T−</button>
+    <button id="increase-font" aria-label="Increase text size">T+</button>
+    <button id="toggle-contrast" aria-label="Toggle high contrast">🌓 High Contrast</button>
+  </div>
+
+  <div class="emergency-bar">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <strong>Emergency:</strong> If symptoms are sudden or severe, call 999. For non-urgent advice, call NHS 111 or your GP.
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="https://i.postimg.cc/C1YDNWZB/NPH-logo.png" alt="NPH Charity Logo" class="logo-img">
+    </div>
+    
+    <div class="header-buttons">
+      <button class="btn-member">Become a member</button>
+      <button class="btn-donate">Donate</button>
+      <button class="btn-contact">Contact us</button>
+    </div>
+  </header>
+
+  <nav id="menu">
+    <a href="index.html" class="menu-item">Home</a>
+    <a href="whatisnph.html" class="menu-item">What is NPH?</a>
+    <a href="doihavenph.html" class="menu-item">Do I have NPH?</a>
+    <a href="resources.html" class="menu-item">Resources</a>
+    <a href="contact.html" class="menu-item active">Contact</a>
+    <a href="clinic.html" class="menu-item active">Clinics</a>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <h1>Contact Us</h1>
+      <p>Get in touch with NPH Charity UK for support, inquiries, or to learn more about our services. We’re here to help!</p>
+    </div>
+    <div class="contact-grid">
+      <!-- Left side (form) -->
+      <div class="card contact-form">
+        <h2><i class="fa-regular fa-envelope"></i> Send Us a Message</h2>
+        <form id="contact-form">
+          <label for="name">Your Name *</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="phone">Phone Number (optional)</label>
+          <input type="text" id="phone" name="phone">
+
+          <label for="subject">What can we help you with? *</label>
+          <select id="subject" name="subject" required>
+            <option value="">Select a topic</option>
+            <option value="General Inquiry">General Inquiry</option>
+            <option value="Support">Support</option>
+            <option value="Donations">Donations</option>
+          </select>
+
+          <label>Preferred contact method:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="contact_method" value="email" checked> Email</label>
+            <label><input type="radio" name="contact_method" value="phone"> Phone call</label>
+          </div>
+
+          <label for="message">Your Message *</label>
+          <textarea id="message" name="message" placeholder="Please tell us more about what you need help with..." required></textarea>
+
+          <input type="submit" value="Send Message">
+          <p class="small-note">* Required fields. We aim to respond within 2 working days.</p>
+        </form>
+      </div>
+
+      <!-- Right side (info cards) -->
+      <div>
+        <div class="card info-section">
+          <h2><i class="fa-solid fa-address-card"></i> Direct Contact</h2>
+          <p><strong>Helpline</strong> 0800 123 4567<br><small>Monday–Friday, 9am–5pm</small></p>
+          <p><strong>Email</strong> info@nphcharity.org.uk<br><small>We respond within 2 working days</small></p>
+          <p><strong>Postal Address</strong> NPH Charity UK<br>123 Medical Centre<br>London SW1A 1AA</p>
+        </div>
+
+        <div class="card info-section">
+          <h2><i class="fa-regular fa-clock"></i> Office Hours</h2>
+          <p><strong>Monday – Friday</strong> 9:00 AM – 5:00 PM</p>
+          <p><strong>Saturday</strong> Closed</p>
+          <p><strong>Sunday</strong> Closed</p>
+          <p class="highlight"><strong>Outside office hours?</strong> Send us an email or leave a voicemail, and we’ll get back to you on the next working day.</p>
+        </div>
+
+        <div class="card info-section">
+          <h2><i class="fa-solid fa-link"></i> Other Ways to Connect</h2>
+          <p><i class="fa-solid fa-users"></i> Support Groups<br>
+            <button>Find Groups</button>
+          </p>
+          <p><i class="fa-solid fa-file-lines"></i> Information Packs<br>
+            <button>Request Pack</button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="card faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>How quickly will you respond?</h3>
+          <p>We aim to respond to all messages within 2 working days. Phone calls are usually returned the same day if received during office hours.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is your service confidential?</h3>
+          <p>Yes, all conversations and correspondence are kept confidential in accordance with data protection laws.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Do you provide medical advice?</h3>
+          <p>We provide information and support but cannot give medical advice. We always encourage you to speak with your GP or specialist.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can family members contact you?</h3>
+          <p>Absolutely! We support family members, carers, and friends of people with NPH.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-about">
+        <h2>NPH Charity UK</h2>
+        <p>Supporting people affected by Normal Pressure Hydrocephalus with information, guidance, and advocacy.</p>
+        <p>
+          <strong>Helpline:</strong> 0800 123 4567<br/>
+          <strong>Email:</strong> info@nphcharity.org.uk<br/>
+          <strong>Contact:</strong> Contact Form
+        </p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="what-is-nph.html">What is NPH?</a></li>
+          <li><a href="doihavenph.html">Do I have NPH?</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 NPH Charity UK. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Accessibility controls
+    let fontSize = 16;
+
+    document.getElementById("increase-font").addEventListener("click", () => {
+      fontSize += 2;
+      document.body.style.fontSize = fontSize + "px";
+    });
+
+    document.getElementById("decrease-font").addEventListener("click", () => {
+      if (fontSize > 10) {
+        fontSize -= 2;
+        document.body.style.fontSize = fontSize + "px";
+      }
+    });
+
+    document.getElementById("toggle-contrast").addEventListener("click", () => {
+      document.body.classList.toggle("high-contrast");
+    });
+
+    // Navigation functionality
+    document.querySelectorAll('#menu .menu-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        const href = item.getAttribute('href');
+        if (href === 'index.html' || href === 'what-is-nph.html' || href === 'doihavenph.html' || href === 'resources.html' || href === 'contact.html') {
+          window.location.href = href;
+        } else if (href === '#') {
+          e.preventDefault();
+          alert('Page under construction. Check back later!');
+        }
+      });
+    });
+
+    // Set active navigation item
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('#menu .menu-item').forEach(item => {
+      if (item.getAttribute('href') === currentPath) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+
+    // Form submission handler
+    document.getElementById('contact-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = event.target;
+      const name = encodeURIComponent(form.name.value);
+      const email = encodeURIComponent(form.email.value);
+      const phone = encodeURIComponent(form.phone.value);
+      const subject = encodeURIComponent(form.subject.value);
+      const contactMethod = encodeURIComponent(form.contact_method.value);
+      const message = encodeURIComponent(form.message.value);
+      const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nPreferred Contact Method: ${contactMethod}\nSubject: ${subject}\nMessage: ${message}`;
+      const mailtoLink = `mailto:info@nphcharity.org.uk?subject=${subject}&body=${body}`;
+      window.location.href = mailtoLink;
+      form.reset();
+      alert('Your message has been prepared. Please check your email client to send it.');
+    });
+  </script>
+</body>
+</html>

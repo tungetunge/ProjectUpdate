@@ -1,21 +1,808 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NPH Charity UK</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Hydrocephalus (NPH)</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #333;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* Accessibility Toolbar */
+    .accessibility-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      background: #0077cc;
+      color: #fff;
+      border-bottom: 1px solid #005fa3;
+      font-size: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .accessibility-toolbar span {
+      color: #fff;
+    }
+    .accessibility-toolbar button {
+      background: #fff;
+      color: #0077cc;
+      border: 1px solid #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .accessibility-toolbar button:hover {
+      background: #e2e6ea;
+      color: #005fa3;
+      border-color: #e2e6ea;
+    }
+
+    /* High contrast mode */
+    body.high-contrast {
+      background: #000 !important;
+      color: #fff !important;
+    }
+    body.high-contrast a {
+      color: yellow !important;
+    }
+    body.high-contrast .nph-card,
+    body.high-contrast .cta-section,
+    body.high-contrast header,
+    body.high-contrast nav,
+    body.high-contrast footer {
+      background: #222 !important;
+      color: #fff !important;
+      border: 1px solid #fff !important;
+    }
+    body.high-contrast .circle-main,
+    body.high-contrast .btn-blue {
+      background: #222 !important;
+      color: yellow !important;
+      border: 1px solid #fff !important;
+    }
+    body.high-contrast .circle-bg {
+      background: #444 !important;
+    }
+    body.high-contrast .circle-accent {
+      background: yellow !important;
+    }
+    body.high-contrast nav a {
+      background: #444 !important;
+    }
+    body.high-contrast nav a.active {
+      background: yellow !important;
+      color: black !important;
+    }
+    body.high-contrast .accessibility-toolbar {
+      background: #444 !important;
+      border-bottom: 1px solid #fff;
+    }
+    body.high-contrast .accessibility-toolbar button {
+      background: #fff !important;
+      color: #000 !important;
+      border: 1px solid #fff !important;
+    }
+    body.high-contrast .accessibility-toolbar button:hover {
+      background: yellow !important;
+      color: black !important;
+    }
+    body.high-contrast .search input {
+      background: #222 !important;
+      color: #fff !important;
+      border: 1px solid #fff !important;
+    }
+    body.high-contrast .search button {
+      color: yellow !important;
+      background: #222 !important;
+    }
+    body.high-contrast .social a {
+      background: #444 !important;
+      color: yellow !important;
+    }
+    body.high-contrast .social a.sc {
+      color: black !important;
+      background: yellow !important;
+    }
+
+    /* Emergency bar */
+    .emergency-bar {
+      background: #e53935;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    .emergency-bar i {
+      color: #fff;
+      font-size: 16px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 40px;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-img {
+      width: 130px;
+      height: auto;
+    }
+    .search {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      margin: 0 20px;
+      align-items: center;
+    }
+    .search input {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px 0 0 20px;
+      width: 200px;
+      font-size: 14px;
+      border-right: none;
+    }
+    .search button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-left: none;
+      background: none;
+      cursor: pointer;
+      color: #0077cc;
+      font-size: 14px;
+      border-radius: 0 20px 20px 0;
+    }
+    .search button:hover {
+      color: #005fa3;
+      background: #f0f7ff;
+    }
+
+    /* Header buttons */
+    .header-buttons button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    .btn-member {
+      background: linear-gradient(135deg, #28a745, #34d058);
+    }
+    .btn-member:hover {
+      background: linear-gradient(135deg, #218838, #28a745);
+      transform: translateY(-2px);
+    }
+    .btn-donate {
+      background: linear-gradient(135deg, #0077cc, #339af0);
+    }
+    .btn-donate:hover {
+      background: linear-gradient(135deg, #005fa3, #0077cc);
+      transform: translateY(-2px);
+    }
+    .btn-contact {
+      background: linear-gradient(135deg, #ff6600, #ff8533);
+    }
+    .btn-contact:hover {
+      background: linear-gradient(135deg, #e65c00, #ff6600);
+      transform: translateY(-2px);
+    }
+
+    /* Navigation */
+    nav {
+      background: none;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      margin-top: 10px;
+    }
+    nav a {
+      background: #3b3b3b;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 2px;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+    nav a:hover {
+      background: #555;
+    }
+    nav a.active {
+      background: #0077cc;
+      color: #fff;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 60px 10%;
+      background: linear-gradient(to bottom right, #eaf4ff, #ffffff);
+      position: relative;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .hero-content {
+      max-width: 600px;
+    }
+    .hero-content h1 {
+      font-size: 34px;
+      font-weight: bold;
+      color: #0078f2;
+      margin-bottom: 15px;
+    }
+    .hero-content h3 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .hero-content p {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+    .btn-green {
+      background: #28b463;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .btn-green:hover {
+      background: #1e944f;
+    }
+    .btn-orange {
+      background: #ff7f32;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .btn-orange:hover {
+      background: #e66a1e;
+    }
+    .btn-blue {
+      border: 2px solid #0078f2;
+      color: #0078f2;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      background: #fff;
+      transition: all 0.2s ease;
+    }
+    .btn-blue:hover {
+      background: #0078f2;
+      color: #fff;
+    }
+    .call-buttons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .callback {
+      font-size: 14px;
+      color: #333;
+    }
+    .hero-image-wrapper {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+    .circle-main {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: #fff;
+      padding: 8px;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+    .circle-main img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .circle-bg {
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 200px;
+      height: 200px;
+      background: #0078f2;
+      border-radius: 0 100% 0 0;
+      z-index: 1;
+    }
+    .circle-accent {
+      position: absolute;
+      bottom: -30px;
+      right: -20px;
+      width: 100px;
+      height: 100px;
+      background: #ff7f32;
+      border-radius: 50%;
+      z-index: 1;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    @media (max-width: 900px) {
+      .hero-section {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero-content {
+        max-width: 100%;
+      }
+      .hero-buttons, .call-buttons {
+        justify-content: center;
+      }
+    }
+
+    /* Banner */
+    .banner {
+      background: #28a745;
+      height: 8px;
+    }
+
+    /* Main content */
+    .container {
+      display: flex;
+      gap: 40px;
+      padding: 40px;
+    }
+    .content {
+      flex: 3;
+    }
+    .content h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #0077cc;
+    }
+    .content .social {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .content .social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .social a.fb { background: #3b5998; }
+    .social a.tw { background: #55acee; }
+    .social a.wa { background: #25d366; }
+    .social a.sc { background: #fffc00; color: black; }
+    .social a:hover {
+      transform: scale(1.1);
+      opacity: 0.85;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      flex: 1;
+    }
+    .sidebar h3 {
+      margin-bottom: 10px;
+      color: #ff6600;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      margin-bottom: 8px;
+    }
+    .sidebar ul li a {
+      text-decoration: none;
+      color: #333;
+    }
+    .sidebar ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* nph-section */
+    .nph-section {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding: 40px 20px;
+    }
+    .nph-section h2 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #1e2a39;
+    }
+    .nph-cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .nph-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      width: 280px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: left;
+      transition: transform 0.2s ease;
+    }
+    .nph-card:hover {
+      transform: translateY(-5px);
+    }
+    .nph-card .icon {
+      font-size: 26px;
+      background: #f0f5ff;
+      color: #2a6cf0;
+      display: inline-block;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .nph-card h3 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .nph-card p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+    .nph-card a {
+      font-size: 14px;
+      color: #2a6cf0;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .nph-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* call to action */
+    .cta-section {
+      background: #0078f2;
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px;
+      border-radius: 4px;
+    }
+    .cta-section h2 {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .cta-section p {
+      font-size: 16px;
+      max-width: 700px;
+      margin: 0 auto 25px;
+      line-height: 1.5;
+    }
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .btn-green {
+      background: #28b463;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .btn-green:hover {
+      background: #1e944f;
+    }
+    .btn-outline {
+      background: #fff;
+      color: #0078f2;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      border: 2px solid #fff;
+      transition: all 0.2s ease;
+    }
+    .btn-outline:hover {
+      background: #f0f7ff;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 40px;
+      margin-top: 40px;
+    }
+    .footer-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .footer-about h2 {
+      margin-top: 0;
+      color: #0077cc;
+    }
+    .footer-links h3 {
+      margin-top: 0;
+      color: #28a745;
+    }
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-links ul li {
+      margin-bottom: 8px;
+    }
+    .footer-links ul li a {
+      text-decoration: none;
+      color: #ff6600;
+    }
+    .footer-links ul li a:hover {
+      text-decoration: underline;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      border-top: 1px solid #555;
+      padding-top: 15px;
+      color: #ccc;
+    }
+  </style>
 </head>
 <body>
-  <header><h1>NPH Charity UK</h1></header>
-  <main>
-    <p>Base site structure ready. Content pages (What is NPH, Get Help, Resources, etc.) are included.</p>
-    <ul>
-      <li><a href="what-is-nph.html">What is NPH?</a></li>
-      <li><a href="resources.html">Resources</a></li>
-    </ul>
-  </main>
-  <footer>© 2025 NPH Charity UK</footer>
+  <!-- Accessibility Toolbar -->
+  <div class="accessibility-toolbar">
+    <span>Accessibility:</span>
+    <button id="decrease-font" aria-label="Decrease text size">T−</button>
+    <button id="increase-font" aria-label="Increase text size">T+</button>
+    <button id="toggle-contrast" aria-label="Toggle high contrast">🌓 High Contrast</button>
+  </div>
+
+  <div class="emergency-bar">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <strong>Emergency:</strong> If symptoms are sudden or severe, call 999. 
+    For non-urgent advice, call NHS 111 or your GP.
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="https://i.postimg.cc/C1YDNWZB/NPH-logo.png" alt="NPH Charity Logo" class="logo-img">
+    </div>
+    <div class="search">
+      <input type="text" placeholder="Search..." id="searchInput"/>
+      <button type="button" id="searchButton"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+    <div class="header-buttons">
+      <button class="btn-member">Become a member</button>
+      <button class="btn-donate">Donate</button>
+      <button class="btn-contact">Contact us</button>
+    </div>
+  </header>
+
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="whatisnph.html">What is NPH?</a>
+    <a href="doihavenph.html">Do I have NPH?</a>
+    <a href="resources.html">Resources</a>
+    <a href="contact.html">Contact</a>
+    <a href="#">Clinics</a>
+  </nav>
+
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>Normal Pressure Hydrocephalus (NPH)</h1>
+      <h3>Early help changes lives</h3>
+      <p>
+        If you or someone you know has walking difficulties, bladder problems,
+        and memory issues, it could be NPH – a treatable condition.
+      </p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-green">→ Get Help Now</a>
+        <a href="#" class="btn-orange">♡ Donate</a>
+        <a href="#" class="btn-blue">📖 Learn About NPH</a>
+      </div>
+      <div class="call-buttons">
+        <a href="tel:08001234567" class="btn-green">📞 Call 0800 123 4567</a>
+      </div>
+    </div>
+    <div class="hero-image-wrapper">
+      <div class="circle-bg"></div>
+      <div class="circle-accent"></div>
+      <div class="circle-main">
+        <img src="https://i.postimg.cc/6Qf9xS3N/42dba118-8f71-48f7-b89c-3b89c389e54b.png" alt="old lady smiling">
+      </div>
+    </div>
+  </div>
+
+  <div class="nph-section">
+    <h2>Understanding NPH</h2>
+    <div class="nph-cards">
+      <div class="nph-card">
+        <div class="icon">👥</div>
+        <h3>Walking Problems</h3>
+        <p>Difficulty walking, shuffling gait, feeling unsteady, or frequent falls may be signs of NPH.</p>
+        <a href="#">Learn more →</a>
+      </div>
+      <div class="nph-card">
+        <div class="icon">💙</div>
+        <h3>Bladder Problems</h3>
+        <p>Urgency, frequency, or loss of bladder control can be symptoms of NPH, often the first to appear.</p>
+        <a href="#">Learn more →</a>
+      </div>
+      <div class="nph-card">
+        <div class="icon">📖</div>
+        <h3>Memory Changes</h3>
+        <p>Mild memory problems, confusion, or changes in thinking may develop alongside other NPH symptoms.</p>
+        <a href="#">Learn more →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Don't Wait - Get Help Today</h2>
+    <p>
+      NPH can be treated successfully when caught early. If you recognize these symptoms, 
+      speak to your GP or contact us.
+    </p>
+    <div class="cta-buttons">
+      <a href="#" class="btn-green">Get Help &amp; Support</a>
+      <a href="#" class="btn-outline">GP Visit Checklist</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-about">
+        <h2>NPH Charity UK</h2>
+        <p>
+          Supporting people affected by Normal Pressure Hydrocephalus with information, 
+          guidance, and advocacy.
+        </p>
+        <p>
+          <strong>Helpline:</strong> 0800 123 4567<br/>
+          <strong>Email:</strong> info@nphcharity.org.uk<br/>
+          <strong>Contact:</strong> Contact Form
+        </p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="whatisnph.html">What is NPH?</a></li>
+          <li><a href="doihavenph.html">Do I have NPH?</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 NPH Charity UK. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Accessibility controls
+    let fontSize = 16;
+
+    document.getElementById("increase-font").addEventListener("click", () => {
+      fontSize += 2;
+      document.body.style.fontSize = fontSize + "px";
+    });
+
+    document.getElementById("decrease-font").addEventListener("click", () => {
+      if (fontSize > 10) {
+        fontSize -= 2;
+        document.body.style.fontSize = fontSize + "px";
+      }
+    });
+
+    document.getElementById("toggle-contrast").addEventListener("click", () => {
+      document.body.classList.toggle("high-contrast");
+    });
+
+    // Navigation functionality
+    document.querySelectorAll('nav a').forEach(item => {
+      item.addEventListener('click', (e) => {
+        const href = item.getAttribute('href');
+        if (href === 'index.html' || href === 'whatisnph.html' || href === 'doihavenph.html' || href === 'resources.html' || href === 'contact.html') {
+          window.location.href = href;
+        } else if (href === '#') {
+          e.preventDefault();
+          alert('Page under construction. Check back later!');
+        }
+      });
+    });
+
+    // Set active navigation item
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('nav a').forEach(item => {
+      if (item.getAttribute('href') === currentPath) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const nphCards = document.querySelectorAll('.nph-card');
+
+    searchButton.addEventListener('click', () => {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      nphCards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (searchTerm === '' || text.includes(searchTerm)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
