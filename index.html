@@ -617,10 +617,11 @@
 <body>
   <!-- Accessibility Toolbar -->
   <div class="accessibility-toolbar">
-    <span>Accessibility:</span>
+    <span>Accessibility: Date: Friday, September 05, 2025 | Time: 11:42 PM PDT</span>
     <button id="decrease-font" aria-label="Decrease text size">T−</button>
     <button id="increase-font" aria-label="Increase text size">T+</button>
     <button id="toggle-contrast" aria-label="Toggle high contrast">🌓 High Contrast</button>
+    <button id="readAloud" aria-label="Read aloud content">🔊 Read Aloud</button>
   </div>
 
   <div class="emergency-bar">
@@ -803,6 +804,44 @@
         }
       });
     });
+
+    // Read Aloud functionality
+    const readAloudButton = document.getElementById('readAloud');
+    const synth = window.speechSynthesis;
+    let voices;
+
+    function populateVoices() {
+      voices = synth.getVoices();
+    }
+
+    function speakContent() {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+
+      const heroContent = [
+        document.querySelector('.hero-content h1').textContent,
+        document.querySelector('.hero-content h3').textContent,
+        document.querySelector('.hero-content p').textContent
+      ].join('. ');
+
+      const nphContent = Array.from(document.querySelectorAll('.nph-card h3, .nph-card p'))
+        .map(element => element.textContent)
+        .join('. ');
+
+      const utterance = new SpeechSynthesisUtterance(heroContent + '. ' + nphContent);
+      utterance.voice = voices.find(voice => voice.lang === 'en-US') || voices[0];
+      utterance.rate = 1;
+      utterance.pitch = 1;
+
+      synth.speak(utterance);
+    }
+
+    readAloudButton.addEventListener('click', speakContent);
+
+    // Populate voices when available
+    synth.onvoiceschanged = populateVoices;
+    populateVoices();
   </script>
 </body>
 </html>
