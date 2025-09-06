@@ -179,13 +179,6 @@
       background: linear-gradient(135deg, #e65c00, #ff6600);
       transform: translateY(-2px);
     }
-    .btn-home {
-      background: linear-gradient(135deg, #0077cc, #339af0);
-    }
-    .btn-home:hover {
-      background: linear-gradient(135deg, #005fa3, #0077cc);
-      transform: translateY(-2px);
-    }
 
     /* Navigation */
     nav#menu {
@@ -364,10 +357,11 @@
 <body>
   <!-- Accessibility Toolbar -->
   <div class="accessibility-toolbar">
-    <span>Accessibility:</span>
+    <span>Accessibility: Date: Saturday, September 06, 2025 | Time: 02:40 AM PDT</span>
     <button id="decrease-font" aria-label="Decrease text size">T−</button>
     <button id="increase-font" aria-label="Increase text size">T+</button>
     <button id="toggle-contrast" aria-label="Toggle high contrast">🌓 High Contrast</button>
+    <button id="readAloud" aria-label="Read aloud content">🔊 Read Aloud</button>
   </div>
 
   <div class="emergency-bar">
@@ -559,67 +553,102 @@
   </footer>
 
   <script>
-    // Accessibility controls
-    let fontSize = 16;
+    document.addEventListener('DOMContentLoaded', () => {
+      // Accessibility controls
+      let fontSize = 16;
 
-    document.getElementById("increase-font").addEventListener("click", () => {
-      fontSize += 2;
-      document.body.style.fontSize = fontSize + "px";
-    });
-
-    document.getElementById("decrease-font").addEventListener("click", () => {
-      if (fontSize > 10) {
-        fontSize -= 2;
+      document.getElementById("increase-font").addEventListener("click", () => {
+        fontSize += 2;
         document.body.style.fontSize = fontSize + "px";
-      }
-    });
+      });
 
-    document.getElementById("toggle-contrast").addEventListener("click", () => {
-      document.body.classList.toggle("high-contrast");
-    });
-
-    // Home button functionality
-    document.querySelector('.btn-home').addEventListener('click', () => {
-      window.location.href = 'index.html';
-    });
-
-    // Navigation functionality
-    document.querySelectorAll('#menu .menu-item').forEach(item => {
-      item.addEventListener('click', (e) => {
-        const href = item.getAttribute('href');
-        if (href === 'index.html' || href === 'what-is-nph.html' || href === 'doihavenph.html' || href === 'resources.html' || href === 'contact.html') {
-          window.location.href = href;
-        } else if (href === '#') {
-          e.preventDefault();
-          alert('Page under construction. Check back later!');
+      document.getElementById("decrease-font").addEventListener("click", () => {
+        if (fontSize > 10) {
+          fontSize -= 2;
+          document.body.style.fontSize = fontSize + "px";
         }
       });
-    });
 
-    // Set active navigation item
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('#menu .menu-item').forEach(item => {
-      if (item.getAttribute('href') === currentPath) {
-        item.classList.add('active');
-      } else {
-        item.classList.remove('active');
-      }
-    });
+      document.getElementById("toggle-contrast").addEventListener("click", () => {
+        document.body.classList.toggle("high-contrast");
+      });
 
-    // Search functionality
-    const searchInput = document.getElementById('searchInput');
-    const contentItems = document.querySelectorAll('.content-item');
+      // Navigation functionality
+      document.querySelectorAll('#menu .menu-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          const href = item.getAttribute('href');
+          if (href === 'index.html' || href === 'what-is-nph.html' || href === 'doihavenph.html' || href === 'resources.html' || href === 'contact.html') {
+            window.location.href = href;
+          } else if (href === '#') {
+            e.preventDefault();
+            alert('Page under construction. Check back later!');
+          }
+        });
+      });
 
-    searchInput.addEventListener('input', () => {
-      const searchTerm = searchInput.value.toLowerCase().trim();
-      contentItems.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        if (searchTerm === '' || text.includes(searchTerm)) {
-          item.style.display = 'block';
+      // Set active navigation item
+      const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('#menu .menu-item').forEach(item => {
+        if (item.getAttribute('href') === currentPath) {
+          item.classList.add('active');
         } else {
-          item.style.display = 'none';
+          item.classList.remove('active');
         }
       });
+
+      // Search functionality
+      const searchInput = document.getElementById('searchInput');
+      const contentItems = document.querySelectorAll('.content-item');
+
+      searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        contentItems.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (searchTerm === '' || text.includes(searchTerm)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+
+      // Read Aloud functionality
+      const readAloudButton = document.getElementById('readAloud');
+      const synth = window.speechSynthesis;
+      let voices;
+
+      function populateVoices() {
+        voices = synth.getVoices();
+      }
+
+      function speakContent() {
+        if (synth.speaking) {
+          synth.cancel();
+        }
+
+        const heroContent = [
+          document.querySelector('.hero h1').textContent,
+          document.querySelector('.hero p').textContent,
+          document.querySelector('.highlight p').textContent
+        ].join('. ');
+
+        const contentItems = Array.from(document.querySelectorAll('.content-item h3, .content-item ul li, .content-item p'))
+          .map(element => element.textContent)
+          .join('. ');
+
+        const utterance = new SpeechSynthesisUtterance(heroContent + '. ' + contentItems);
+        utterance.voice = voices.find(voice => voice.lang === 'en-US') || voices[0];
+        utterance.rate = 1;
+        utterance.pitch = 1;
+
+        synth.speak(utterance);
+      }
+
+      readAloudButton.addEventListener('click', speakContent);
+
+      // Populate voices when available
+      synth.onvoiceschanged = populateVoices;
+      populateVoices();
     });
   </script>
 </body>
